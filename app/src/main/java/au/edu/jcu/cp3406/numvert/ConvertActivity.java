@@ -35,7 +35,7 @@ public class ConvertActivity extends AppCompatActivity {
         int numberEntered = Integer.parseInt(keypadButton.getText().toString());
 
         if (!isEntryFrozen) {
-            if (fromMeasurement == 0) { // Replace default value.
+            if ((fromMeasurement == 0) && (!hasDecimalBeenEntered)) { // Replace default value.
                 fromMeasurement = numberEntered;
                 fromUnitsDisplayText = String.format(locale, "%1.0f", fromMeasurement);
             } else if (!hasDecimalBeenEntered) { // Append to existing value.
@@ -45,9 +45,11 @@ public class ConvertActivity extends AppCompatActivity {
                     isEntryFrozen = true;
                 }
             } else { // Append after decimal point
-                fromUnitsDisplayText = String.format(locale, "%1.0f.%d", fromMeasurement, numberEntered);
-                fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
-                isEntryFrozen = true; // Limit to 1 decimal place
+                if (numberEntered != 0) { // 0 already displayed
+                    fromUnitsDisplayText = String.format(locale, "%1.0f.%d", fromMeasurement, numberEntered);
+                    fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
+                    isEntryFrozen = true; // Limit to 1 decimal place
+                }
             }
         }
         updateFromUnitsEntry();
