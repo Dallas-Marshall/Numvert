@@ -235,10 +235,12 @@
             android:layout_weight="1">
 
             <Button
+                android:id="@+id/clearButton"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="clearClicked"
                 android:text="@string/clear"
                 android:textSize="25sp" />
 

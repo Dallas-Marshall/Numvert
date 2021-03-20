@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 public class ConvertActivity extends AppCompatActivity {
-    private double fromUnits; // Units to convert
+    private double fromMeasurement; // Units to convert
     private String fromUnitsDisplayText; // Text displayed in fromUnitsEntry
     private TextView fromUnitsEntry;
     private boolean hasDecimalBeenEntered;
@@ -35,18 +35,18 @@ public class ConvertActivity extends AppCompatActivity {
         int numberEntered = Integer.parseInt(keypadButton.getText().toString());
 
         if (!isEntryFrozen) {
-            if (fromUnits == 0) { // Replace default value.
-                fromUnits = numberEntered;
-                fromUnitsDisplayText = String.format(locale, "%1.0f", fromUnits);
+            if (fromMeasurement == 0) { // Replace default value.
+                fromMeasurement = numberEntered;
+                fromUnitsDisplayText = String.format(locale, "%1.0f", fromMeasurement);
             } else if (!hasDecimalBeenEntered) { // Append to existing value.
-                fromUnitsDisplayText = String.format(locale, "%1.0f%d", fromUnits, numberEntered);
-                fromUnits = Double.parseDouble(fromUnitsDisplayText);
+                fromUnitsDisplayText = String.format(locale, "%1.0f%d", fromMeasurement, numberEntered);
+                fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
                 if (fromUnitsDisplayText.length() == 6) { // Limit to 6 digits
                     isEntryFrozen = true;
                 }
             } else { // Append after decimal point
-                fromUnitsDisplayText = String.format(locale, "%1.0f.%d", fromUnits, numberEntered);
-                fromUnits = Double.parseDouble(fromUnitsDisplayText);
+                fromUnitsDisplayText = String.format(locale, "%1.0f.%d", fromMeasurement, numberEntered);
+                fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
                 isEntryFrozen = true; // Limit to 1 decimal place
             }
         }
@@ -63,13 +63,28 @@ public class ConvertActivity extends AppCompatActivity {
 
         if (!isEntryFrozen) {
             Locale locale = Locale.getDefault();
-            fromUnitsDisplayText = String.format(locale, "%1.1f", fromUnits);
-            fromUnits = Double.parseDouble(fromUnitsDisplayText);
+            fromUnitsDisplayText = String.format(locale, "%1.1f", fromMeasurement);
+            fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
             updateFromUnitsEntry();
         }
     }
 
+    /**
+     * Updates fromUnitsEntry display.
+     */
     private void updateFromUnitsEntry() {
         fromUnitsEntry.setText(fromUnitsDisplayText);
+    }
+
+    /**
+     * Handles event when clearButton is pressed.
+     *
+     * @param buttonPressed The clearButton view element.
+     */
+    public void clearClicked(View buttonPressed) {
+        fromMeasurement = 0;
+        fromUnitsDisplayText = "";
+        isEntryFrozen = hasDecimalBeenEntered = false;
+        updateFromUnitsEntry();
     }
 }
