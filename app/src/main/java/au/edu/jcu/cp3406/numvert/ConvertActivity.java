@@ -12,8 +12,13 @@ import java.util.Locale;
 
 public class ConvertActivity extends AppCompatActivity {
     private double fromMeasurement; // Units to convert
-    private String fromUnitsDisplayText; // Text displayed in fromUnitsEntry
-    private TextView fromUnitsEntry;
+    private String fromUnits;
+    private TextView fromUnitsDisplay;
+    private String fromMeasurementDisplayText; // Text displayed in fromUnitsEntry
+    private TextView fromMeasurementEntry;
+    private String toUnits;
+    private TextView toUnitsDisplay;
+    private TextView conversionResultDisplay;
     private boolean hasDecimalBeenEntered;
     private boolean isEntryFrozen; // Freeze entry when fromUnits limit is reached
     private final Locale locale = Locale.getDefault();
@@ -23,7 +28,19 @@ public class ConvertActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convert);
-        fromUnitsEntry = findViewById(R.id.fromUnitsEntry);
+
+        fromMeasurementEntry = findViewById(R.id.fromMeasurementEntry);
+        fromUnitsDisplay = findViewById(R.id.fromUnitsDisplay);
+        toUnitsDisplay = findViewById(R.id.toUnitsDisplay);
+
+        Intent intent = getIntent();
+        fromUnits = intent.getStringExtra("fromUnits");
+        toUnits = intent.getStringExtra("toUnits");
+        if (fromUnits == null) { // Set defaults
+            fromUnits = "mm";
+            toUnits = "m";
+        }
+        updateUnitsDisplays();
     }
 
     /**
@@ -38,22 +55,22 @@ public class ConvertActivity extends AppCompatActivity {
         if (!isEntryFrozen) {
             if ((fromMeasurement == 0) && (!hasDecimalBeenEntered)) { // Replace default value.
                 fromMeasurement = numberEntered;
-                fromUnitsDisplayText = String.format(locale, "%1.0f", fromMeasurement);
+                fromMeasurementDisplayText = String.format(locale, "%1.0f", fromMeasurement);
             } else if (!hasDecimalBeenEntered) { // Append to existing value.
-                fromUnitsDisplayText = String.format(locale, "%1.0f%d", fromMeasurement, numberEntered);
-                fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
-                if (fromUnitsDisplayText.length() == 6) { // Limit to 6 digits
+                fromMeasurementDisplayText = String.format(locale, "%1.0f%d", fromMeasurement, numberEntered);
+                fromMeasurement = Double.parseDouble(fromMeasurementDisplayText);
+                if (fromMeasurementDisplayText.length() == 6) { // Limit to 6 digits
                     isEntryFrozen = true;
                 }
             } else { // Append after decimal point
                 if (numberEntered != 0) { // 0 already displayed
-                    fromUnitsDisplayText = String.format(locale, "%1.0f.%d", fromMeasurement, numberEntered);
-                    fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
+                    fromMeasurementDisplayText = String.format(locale, "%1.0f.%d", fromMeasurement, numberEntered);
+                    fromMeasurement = Double.parseDouble(fromMeasurementDisplayText);
                     isEntryFrozen = true; // Limit to 1 decimal place
                 }
             }
         }
-        updateFromUnitsEntry();
+        updateFromMeasurementEntry();
     }
 
     /**
@@ -66,17 +83,17 @@ public class ConvertActivity extends AppCompatActivity {
 
         if (!isEntryFrozen) {
             Locale locale = Locale.getDefault();
-            fromUnitsDisplayText = String.format(locale, "%1.1f", fromMeasurement);
-            fromMeasurement = Double.parseDouble(fromUnitsDisplayText);
-            updateFromUnitsEntry();
+            fromMeasurementDisplayText = String.format(locale, "%1.1f", fromMeasurement);
+            fromMeasurement = Double.parseDouble(fromMeasurementDisplayText);
+            updateFromMeasurementEntry();
         }
     }
 
     /**
-     * Updates fromUnitsEntry display.
+     * Updates fromMeasurementEntry display.
      */
-    private void updateFromUnitsEntry() {
-        fromUnitsEntry.setText(fromUnitsDisplayText);
+    private void updateFromMeasurementEntry() {
+        fromMeasurementEntry.setText(fromMeasurementDisplayText);
     }
 
     /**
@@ -86,13 +103,24 @@ public class ConvertActivity extends AppCompatActivity {
      */
     public void clearClicked(View buttonPressed) {
         fromMeasurement = 0;
-        fromUnitsDisplayText = "";
+        fromMeasurementDisplayText = "";
         isEntryFrozen = hasDecimalBeenEntered = false;
-        updateFromUnitsEntry();
+        updateFromMeasurementEntry();
     }
 
-    public void settingsClicked(View view) {
+    /**
+     * Handles event when settingsButton is pressed.
+     *
+     * @param buttonPressed the settingsButton view element.
+     */
+    public void settingsClicked(View buttonPressed) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+
+    public void updateUnitsDisplays() {
+        fromUnitsDisplay.setText(fromUnits);
+        toUnitsDisplay.setText(toUnits);
     }
 }

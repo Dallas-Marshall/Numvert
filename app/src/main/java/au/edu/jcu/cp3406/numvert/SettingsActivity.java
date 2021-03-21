@@ -30,6 +30,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         adapterToUnits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toUnitsSpinner.setAdapter(adapterToUnits);
 
+        // Set default Values
+        int mmUnitPosition = adapterFromUnits.getPosition("mm");
+        fromUnitsSpinner.setSelection(mmUnitPosition);
+
+        int mUnitPosition = adapterToUnits.getPosition("m");
+        toUnitsSpinner.setSelection(mUnitPosition);
+
+        // Set listeners
         fromUnitsSpinner.setOnItemSelectedListener(this);
         toUnitsSpinner.setOnItemSelectedListener(this);
     }
@@ -41,6 +49,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
      */
     public void convertCLicked(View buttonPressed) {
         Intent intent = new Intent(this, ConvertActivity.class);
+        intent.putExtra("fromUnits", fromUnits);
+        intent.putExtra("toUnits", toUnits);
         startActivity(intent);
     }
 
