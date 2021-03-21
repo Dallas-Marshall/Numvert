@@ -34,6 +34,30 @@
                 android:layout_marginStart="5dp"
                 android:text="@string/settings" />
         </TableRow>
+
+        <TableRow
+            android:id="@+id/fromUnitsSelectionsRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/red">
+
+            <Spinner
+                android:id="@+id/fromUnitsSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/toUnitsSelectionsRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/red">
+
+            <Spinner
+                android:id="@+id/toUnitsSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </TableRow>
     </TableLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
