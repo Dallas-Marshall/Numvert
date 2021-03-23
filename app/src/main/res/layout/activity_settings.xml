@@ -39,24 +39,48 @@
             android:id="@+id/fromUnitsSelectionsRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/red">
+            android:background="@color/red"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/fromDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="50dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/from"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white" />
 
             <Spinner
                 android:id="@+id/fromUnitsSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </TableRow>
 
         <TableRow
             android:id="@+id/toUnitsSelectionsRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/red">
+            android:background="@color/white"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/toDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="50dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/to"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black" />
 
             <Spinner
                 android:id="@+id/toUnitsSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </TableRow>
     </TableLayout>
 
