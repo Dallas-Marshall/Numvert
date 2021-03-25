@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:text="@string/decimal_0"
                 android:textAlignment="textEnd"
-                android:textSize="50sp"
+                android:textSize="45sp"
                 android:typeface="monospace" />
         </TableRow>
 
