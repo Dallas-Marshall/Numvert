@@ -18,6 +18,7 @@
     <string name="clear">CLEAR</string>
     <string name="_0">0</string>
     <string name="decimal">.</string>
+    <string name="decimal_0">0.0</string>
 
     <string-array name="measurements">
         <item>mm</item>
