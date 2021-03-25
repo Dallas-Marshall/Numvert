@@ -11,16 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 
 public class ConvertActivity extends AppCompatActivity {
-    private double fromMeasurement; // Units to convert
+    private double fromMeasurement; // Measurement to convert
     private String fromUnits;
     private TextView fromUnitsDisplay;
-    private String fromMeasurementDisplayText; // Text displayed in fromUnitsEntry
+    private String fromMeasurementDisplayText; // Text displayed in fromMeasurementEntry
     private TextView fromMeasurementEntry;
     private String toUnits;
     private TextView toUnitsDisplay;
     private TextView conversionResultDisplay;
+    private String conversionResultDisplayText; // Text displayed in conversionResultDisplay
     private boolean hasDecimalBeenEntered;
-    private boolean isEntryFrozen; // Freeze entry when fromUnits limit is reached
+    private boolean isEntryFrozen; // Freeze entry when fromMeasurement limit is reached
     private final Locale locale = Locale.getDefault();
 
 
@@ -30,6 +31,7 @@ public class ConvertActivity extends AppCompatActivity {
         setContentView(R.layout.activity_convert);
 
         fromMeasurementEntry = findViewById(R.id.fromMeasurementEntry);
+        conversionResultDisplay = findViewById(R.id.conversionDisplay);
         fromUnitsDisplay = findViewById(R.id.fromUnitsDisplay);
         toUnitsDisplay = findViewById(R.id.toUnitsDisplay);
 
@@ -70,7 +72,13 @@ public class ConvertActivity extends AppCompatActivity {
                 }
             }
         }
+        updateConversionResultDisplay();
         updateFromMeasurementEntry();
+    }
+
+    private void updateConversionResultDisplay() {
+        conversionResultDisplayText = Converter.convertLength(fromUnits, fromMeasurement, toUnits);
+        conversionResultDisplay.setText(conversionResultDisplayText);
     }
 
     /**
@@ -103,9 +111,11 @@ public class ConvertActivity extends AppCompatActivity {
      */
     public void clearClicked(View buttonPressed) {
         fromMeasurement = 0;
-        fromMeasurementDisplayText = "";
+        fromMeasurementDisplayText = "0";
+        conversionResultDisplayText = "0";
         isEntryFrozen = hasDecimalBeenEntered = false;
         updateFromMeasurementEntry();
+        updateConversionResultDisplay();
     }
 
     /**
