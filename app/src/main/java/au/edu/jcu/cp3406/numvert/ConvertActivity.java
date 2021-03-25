@@ -125,9 +125,11 @@ public class ConvertActivity extends AppCompatActivity {
      */
     public void settingsClicked(View buttonPressed) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("fromUnits", fromUnits);
+        intent.putExtra("toUnits", toUnits);
+        System.out.println(String.format(locale, "From %s - To %s", fromUnits, toUnits));
         startActivity(intent);
     }
-
 
     public void updateUnitsDisplays() {
         fromUnitsDisplay.setText(fromUnits);

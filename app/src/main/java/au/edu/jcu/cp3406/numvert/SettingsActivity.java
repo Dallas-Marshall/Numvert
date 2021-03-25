@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -18,6 +19,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Load currently selected units
+        Intent intent = getIntent();
+        fromUnits = intent.getStringExtra("fromUnits");
+        toUnits = intent.getStringExtra("toUnits");
+        setupSpinners();
+    }
+
+    private void setupSpinners() {
         // Setup spinners
         Spinner fromUnitsSpinner = findViewById(R.id.fromUnitsSpinner);
         Spinner toUnitsSpinner = findViewById(R.id.toUnitsSpinner);
@@ -30,12 +39,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         adapterToUnits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toUnitsSpinner.setAdapter(adapterToUnits);
 
-        // Set default Values
-        int mmUnitPosition = adapterFromUnits.getPosition("mm");
-        fromUnitsSpinner.setSelection(mmUnitPosition);
+        // Set Values
+        int fromUnitsPosition = adapterFromUnits.getPosition(fromUnits);
+        fromUnitsSpinner.setSelection(fromUnitsPosition);
 
-        int mUnitPosition = adapterToUnits.getPosition("m");
-        toUnitsSpinner.setSelection(mUnitPosition);
+        int toUnitsPosition = adapterToUnits.getPosition(toUnits);
+        toUnitsSpinner.setSelection(toUnitsPosition);
 
         // Set listeners
         fromUnitsSpinner.setOnItemSelectedListener(this);
