@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
@@ -22,7 +23,7 @@ public class ConvertActivity extends AppCompatActivity {
     private String conversionResultDisplayText; // Text displayed in conversionResultDisplay
     private boolean hasDecimalBeenEntered;
     private boolean isEntryFrozen; // Freeze entry when fromMeasurement limit is reached
-    private final Locale locale = Locale.getDefault();
+    private final static Locale locale = Locale.getDefault();
 
 
     @Override
@@ -35,13 +36,6 @@ public class ConvertActivity extends AppCompatActivity {
         fromUnitsDisplay = findViewById(R.id.fromUnitsDisplay);
         toUnitsDisplay = findViewById(R.id.toUnitsDisplay);
 
-        Intent intent = getIntent();
-        fromUnits = intent.getStringExtra("fromUnits");
-        toUnits = intent.getStringExtra("toUnits");
-        if (fromUnits == null) { // Set defaults
-            fromUnits = "mm";
-            toUnits = "m";
-        }
         updateUnitsDisplays();
     }
 
@@ -128,11 +122,29 @@ public class ConvertActivity extends AppCompatActivity {
         intent.putExtra("fromUnits", fromUnits);
         intent.putExtra("toUnits", toUnits);
         System.out.println(String.format(locale, "From %s - To %s", fromUnits, toUnits));
-        startActivity(intent);
+        startActivityForResult(intent, 1234);
     }
 
     public void updateUnitsDisplays() {
+        if (fromUnits == null) { // Set defaults
+            fromUnits = "mm";
+            toUnits = "m";
+        }
         fromUnitsDisplay.setText(fromUnits);
         toUnitsDisplay.setText(toUnits);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1234) {
+            if (resultCode == RESULT_OK && data != null) {
+
+                fromUnits = data.getStringExtra("fromUnits");
+                toUnits = data.getStringExtra("toUnits");
+
+                updateUnitsDisplays();
+            }
+        }
     }
 }

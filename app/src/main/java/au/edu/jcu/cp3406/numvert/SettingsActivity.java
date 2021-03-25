@@ -57,10 +57,11 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
      * @param buttonPressed The convertButton view element.
      */
     public void convertCLicked(View buttonPressed) {
-        Intent intent = new Intent(this, ConvertActivity.class);
-        intent.putExtra("fromUnits", fromUnits);
-        intent.putExtra("toUnits", toUnits);
-        startActivity(intent);
+        Intent data = new Intent();
+        data.putExtra("fromUnits", fromUnits);
+        data.putExtra("toUnits", toUnits);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     /**
