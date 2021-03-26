@@ -39,16 +39,11 @@ public class Converter {
         int fromSelectionIndex = indexes.indexOf(fromUnits);
         int toSelectionIndex = indexes.indexOf(toUnits);
 
+        // Convert
         double conversionFactor = lengthConversionTable[fromSelectionIndex][toSelectionIndex];
         double conversionResult = fromMeasurement * conversionFactor;
 
         Locale locale = Locale.getDefault();
-
-        int conversionResultLength = ("" + conversionResult).length();
-        if (conversionResultLength > 6) { // Return scientific notation if large result
-            return String.format(locale, "%4.3g%s", conversionResult, toUnits);
-        } else { // Return decimal
-            return (conversionResult + toUnits);
-        }
+        return String.format(locale, "%4.3g%s", conversionResult, toUnits);
     }
 }
